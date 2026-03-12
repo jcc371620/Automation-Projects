@@ -1,0 +1,12 @@
+$kind: http-request
+description: This is a PUT request, used to update existing data. The request
+  body contains the updated data in JSON format. A successful PUT request
+  typically returns a 200 OK response.
+url: "{{baseUrl}}/put"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: '{"FirstName": "Jessy", "LastName": "Chen", "City": "Shanghai", "Age": 26}'
+order: 3000

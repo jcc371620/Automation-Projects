@@ -1,0 +1,59 @@
+$kind: http-request
+description: >-
+  This is a GET request and it is used to "get" data from an endpoint. There is
+  no request body for a GET request, but you can use query parameters to help
+  specify the resource you want data on (e.g., in this request, we have `id=1`).
+
+
+  A successful GET response will have a `200 OK` status, and should include some
+  kind of response body - for example, HTML web content or JSON data.
+url: "{{baseUrl}}/get?FirstName=Jessy&LastName=Chen&City=Shanghai&Age=26"
+method: GET
+queryParams:
+  FirstName: Jessy
+  LastName: Chen
+  City: Shanghai
+  Age: "26"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("Response body contains args object", function () {
+          var jsonData = pm.response.json();
+          pm.expect(jsonData).to.have.property("args");
+          pm.expect(jsonData.args).to.be.an("object");
+      });
+
+      pm.test("args.FirstName equals Jessy", function () {
+          var jsonData = pm.response.json();
+          pm.expect(jsonData.args.FirstName).to.eql("Jessy");
+      });
+
+      pm.test("args.LastName equals Chen", function () {
+          var jsonData = pm.response.json();
+          pm.expect(jsonData.args.LastName).to.eql("Chen");
+      });
+
+      pm.test("args.City equals Shanghai", function () {
+          var jsonData = pm.response.json();
+          pm.expect(jsonData.args.City).to.eql("Shanghai");
+      });
+
+      pm.test("args.Age equals 26", function () {
+          var jsonData = pm.response.json();
+          pm.expect(jsonData.args.Age).to.eql("26");
+      });
+
+      pm.test("Response time is below 2000ms", function () {
+          pm.expect(pm.response.responseTime).to.be.below(2000);
+      });
+
+      pm.test("Response body contains url field", function () {
+          var jsonData = pm.response.json();
+          pm.expect(jsonData).to.have.property("url");
+      });
+    language: text/javascript
+order: 1000

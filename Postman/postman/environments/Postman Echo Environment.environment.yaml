@@ -1,0 +1,6 @@
+name: Postman Echo Environment
+values:
+  - key: baseUrl
+    value: https://postman-echo.com
+    enabled: true
+color: null
